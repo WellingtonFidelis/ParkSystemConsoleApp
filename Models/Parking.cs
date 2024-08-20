@@ -35,33 +35,52 @@ namespace ParkSystemConsoleApp.Models.Parking
 
         public void DeleteCar()
         {
-            Console.WriteLine("Digite a placa do veículo para remover:");
-
-            // Pedir para o usuário digitar a placa e armazenar na variável placa
-            // *IMPLEMENTE AQUI*
-            string licensePlate = "";
-
-            // Verifica se o veículo existe
-            if (cars.Any(x => x.ToUpper() == licensePlate.ToUpper()))
+            if (cars.Count > 0)
             {
-                Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
+                Console.WriteLine("Digite o código da placa do carro que deseja remover.\n");
 
-                // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
-                // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
+                // Pedir para o usuário digitar a placa e armazenar na variável placa
                 // *IMPLEMENTE AQUI*
-                int hours = 0;
-                decimal totalValue = 0;
+                int i = 0;
+                foreach (string car in cars)
+                {
+                    i++;
+                    Console.WriteLine($"{i} - {car}"); 
+                }
 
-                // TODO: Remover a placa digitada da lista de veículos
-                // *IMPLEMENTE AQUI*
+                int carOptionCode = Convert.ToInt16(Console.ReadLine());
 
-                Console.WriteLine($"O veículo {licensePlate} foi removido e o preço total foi de: R$ {totalValue}");
+                // Verifica se o veículo existe
+                //if (cars.Any(x => x.ToUpper() == licensePlate.ToUpper()))
+                if (carOptionCode <= cars.Count)
+                {
+
+                    // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
+                    Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado: ");
+                    int hoursParked = Convert.ToInt16(Console.ReadLine());
+
+                    // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
+                    // *IMPLEMENTE AQUI*
+                    decimal totalValue = 0;
+                    totalValue = initialPrice + pricePerHour * hoursParked;
+
+                    // TODO: Remover a placa digitada da lista de veículos
+                    // *IMPLEMENTE AQUI*
+                    //
+                    string licensePlate = cars[(carOptionCode - 1)];
+                    cars.RemoveAt((carOptionCode - 1));
+
+                    Console.WriteLine($"O veículo {licensePlate} foi removido e o preço total foi de: R$ {totalValue}");
+                }
+                else
+                {
+                    Console.WriteLine("Desculpe, esse código é inválido.");
+                }
             }
             else
             {
-                Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
+                Console.WriteLine("Não há veículos estacionados.");
             }
-
         }
 
         public void ListCar()
